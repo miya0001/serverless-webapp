@@ -11,33 +11,12 @@ provider:
   region: ap-northeast-1
 
 functions:
-  home:
-    handler: handler.html
+  api:
+    handler: handler.app
     events:
       - http:
-          method: get
           path: /
-          integration: lambda-proxy
-          response:
-            template: $input.path('$')
-  pages:
-    handler: handler.html
-    events:
-      - http:
           method: get
-          path: /{path}
-          integration: lambda-proxy
-          response:
-            template: $input.path('$')
-
-resources:
-  Resources:
-    GatewayResponse:
-      Type: 'AWS::ApiGateway::GatewayResponse'
-      Properties:
-        RestApiId: 
-          Ref: 'ApiGatewayRestApi'
-        ResponseType: MISSING_AUTHENTICATION_TOKEN
-        StatusCode: '404'
-        ResponseTemplates: 
-          text/html: ${file(./404.html)}
+      - http:
+          path: /{any+}
+          method: get

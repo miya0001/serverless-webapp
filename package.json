@@ -10,8 +10,6 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-  },
   "devDependencies": {
     "serverless": "^1.35.0",
     "serverless-offline": "^3.31.3"
