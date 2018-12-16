@@ -1,8 +1,7 @@
 {
-  "name": "serverless-cms",
+  "name": "serverless-webapp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "sls offline start",
     "deploy": "sls deploy",

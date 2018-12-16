@@ -1,4 +1,4 @@
-service: serverless-cms
+service: serverless-webapp
 frameworkVersion: ">=1.29.2 <2.0.0"
 
 plugins:
