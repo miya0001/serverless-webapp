@@ -1,4 +1,4 @@
-# Serverless CMS boilerplate
+# Serverless Webapp boilerplate
 
 Develop:
 
