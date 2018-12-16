@@ -1,0 +1,12 @@
+defaultHandler:
+  lib/default.handler
+sitemap:
+  /:
+    title: Welcome!
+    handler: lib/index.handler
+  /hello:
+    title: Hello World
+    handler: lib/index.handler
+  /about:
+    title: About us
+    handler: lib/index.handler
