@@ -1,0 +1,19 @@
+{
+  "name": "serverless-cms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "sls offline start",
+    "deploy": "sls deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "serverless": "^1.35.0",
+    "serverless-offline": "^3.31.3"
+  }
+}

@@ -1,0 +1,35 @@
+service: serverless-cms
+frameworkVersion: ">=1.29.2 <2.0.0"
+
+plugins:
+- serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  memorySize: 512
+  region: ap-northeast-1
+
+functions:
+  home:
+    handler: handler.html
+    events:
+      - http:
+          method: get
+          path: /
+          integration: lambda-proxy
+          response:
+            headers:
+              Content-Type: "'text/html'"
+            template: $input.path('$')
+  pages:
+    handler: handler.html
+    events:
+      - http:
+          method: get
+          path: /{path}
+          integration: lambda-proxy
+          response:
+            headers:
+              Content-Type: "'text/html'"
+            template: $input.path('$')
