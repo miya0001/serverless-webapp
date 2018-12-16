@@ -19,8 +19,6 @@ functions:
           path: /
           integration: lambda-proxy
           response:
-            headers:
-              Content-Type: "'text/html'"
             template: $input.path('$')
   pages:
     handler: handler.html
@@ -30,6 +28,16 @@ functions:
           path: /{path}
           integration: lambda-proxy
           response:
-            headers:
-              Content-Type: "'text/html'"
             template: $input.path('$')
+
+resources:
+  Resources:
+    GatewayResponse:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        RestApiId: 
+          Ref: 'ApiGatewayRestApi'
+        ResponseType: MISSING_AUTHENTICATION_TOKEN
+        StatusCode: '404'
+        ResponseTemplates: 
+          text/html: ${file(./404.html)}
