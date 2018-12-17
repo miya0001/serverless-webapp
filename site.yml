@@ -5,10 +5,7 @@ meta:
 sitemap:
   /:
     title: Welcome!
-    template: index.html
   /hello:
     title: Hello World
-    template: index.html
   /about:
     title: About us
-    template: index.html
