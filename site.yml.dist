@@ -1,5 +1,7 @@
 defaultHandler:
   lib/default.handler
+meta:
+  sitetitle: Welcome to serverless!
 sitemap:
   /:
     title: Welcome!

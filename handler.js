@@ -1,10 +1,9 @@
 'use strict';
 
+const AWS = require('aws-sdk');
 const yaml = require('js-yaml')
 const fs = require('fs')
 const path = require('path')
-
-const map = yaml.safeLoad(fs.readFileSync('./site.yml', 'utf8'))
 
 const getHandler = (string) => {
   const handler = require(path.join(__dirname, string.split(/\./)[0]))
@@ -12,15 +11,27 @@ const getHandler = (string) => {
 }
 
 module.exports.app = (event, context, callback) => {
-  let handler = getHandler(map.defaultHandler)
-  let params = {}
+  const s3 = new AWS.S3()
+  const params = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: "site.yml"
+  };
+  s3.getObject(params, (err, data) => {
+    const site = yaml.safeLoad(data.Body.toString('utf-8'))
 
-  for (const key in map.sitemap) {
-    if (event.path.match(new RegExp(`^${key}$`))) {
-      params = map.sitemap[key]
-      handler = getHandler(map.sitemap[key].handler)
+    let handler = getHandler(site.defaultHandler)
+    let args = {
+      site: site,
+      page: {}
     }
-  }
-
-  callback(null, handler(params, event, context))
+  
+    for (const key in site.sitemap) {
+      if (event.path.match(new RegExp(`^${key}$`))) {
+        args.page = site.sitemap[key]
+        handler = getHandler(site.sitemap[key].handler)
+      }
+    }
+  
+    callback(null, handler(args, event, context))
+  })
 }
