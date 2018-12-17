@@ -4,7 +4,7 @@ const yaml = require('js-yaml')
 const fs = require('fs')
 const path = require('path')
 
-const map = yaml.safeLoad(fs.readFileSync('./site.yml', 'utf8'))
+const site = yaml.safeLoad(fs.readFileSync('./site.yml', 'utf8'))
 
 const getHandler = (string) => {
   const handler = require(path.join(__dirname, string.split(/\./)[0]))
@@ -12,15 +12,20 @@ const getHandler = (string) => {
 }
 
 module.exports.app = (event, context, callback) => {
-  let handler = getHandler(map.defaultHandler)
-  let params = {}
+  const params = {
+    site: site.meta,
+    page: {},
+    handler: getHandler(site.defaultHandler),
+  }
 
-  for (const key in map.sitemap) {
+  for (const key in site.sitemap) {
     if (event.path.match(new RegExp(`^${key}$`))) {
-      params = map.sitemap[key]
-      handler = getHandler(map.sitemap[key].handler)
+      params.page = site.sitemap[key]
+      if (site.sitemap[key].handler) {
+        params.handler = getHandler(site.sitemap[key].handler)
+      }
     }
   }
 
-  callback(null, handler(params, event, context))
+  callback(null, params.handler(params, event, context))
 }
