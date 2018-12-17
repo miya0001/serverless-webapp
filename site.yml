@@ -5,10 +5,10 @@ meta:
 sitemap:
   /:
     title: Welcome!
-    handler: lib/index.handler
+    template: index.html
   /hello:
     title: Hello World
-    handler: lib/index.handler
+    template: index.html
   /about:
     title: About us
-    handler: lib/index.handler
+    template: index.html
