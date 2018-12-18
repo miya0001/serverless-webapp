@@ -13,7 +13,7 @@ const getHandler = (string) => {
 
 module.exports.app = (event, context, callback) => {
   const params = {
-    site: site.meta,
+    site: site.site_meta,
     page: {},
     handler: getHandler(site.defaultHandler),
   }
