@@ -15,7 +15,7 @@ module.exports.app = (event, context, callback) => {
   const params = {
     site: site.site_meta,
     page: {},
-    handler: getHandler(site.defaultHandler),
+    handler: getHandler(site.settings.defaultHandler),
   }
 
   for (const key in site.sitemap) {

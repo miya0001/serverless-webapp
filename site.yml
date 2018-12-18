@@ -1,5 +1,3 @@
-defaultHandler:
-  lib/default.handler
 site_meta:
   title: Welcome to serverless!
 sitemap:
@@ -11,3 +9,5 @@ sitemap:
     title: Hello World
   /about:
     title: About us
+settings:
+  defaultHandler: lib/default.handler
