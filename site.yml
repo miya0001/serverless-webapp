@@ -1,0 +1,13 @@
+defaultHandler:
+  lib/default.handler
+site_meta:
+  title: Welcome to serverless!
+sitemap:
+  /:
+    title: Welcome!
+    handler: lib/default.handler # Default value
+    template: default.html # Default value
+  /hello:
+    title: Hello World
+  /about:
+    title: About us
