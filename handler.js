@@ -15,6 +15,7 @@ module.exports.app = (event, context, callback) => {
   const params = {
     site: site.site_meta,
     page: {},
+    event: event,
     handler: getHandler(site.settings.defaultHandler),
   }
 
