@@ -5,6 +5,7 @@ site_meta:
   twitter:
     card: summary_large_image
   ogp:
+    type: website
     image: https://example.com/ogp.png
 sitemap:
   /:
