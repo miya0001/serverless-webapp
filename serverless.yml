@@ -22,6 +22,7 @@ package:
     - yarn.lock
     - package.json
     - README.md
+    - media
 
 functions:
   app:
