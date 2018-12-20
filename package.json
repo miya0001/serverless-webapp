@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start": "sls offline start",
-    "deploy": "sls deploy",
+    "deploy:production": "sls deploy --stage master",
+    "deploy:staging": "sls deploy --stage dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
