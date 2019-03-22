@@ -9,6 +9,7 @@ provider:
   runtime: nodejs8.10
   memorySize: 512
   region: ap-northeast-1
+  versionFunctions: false
 
 package:
   exclude:
@@ -22,15 +23,52 @@ package:
     - yarn.lock
     - package.json
     - README.md
-    - media
+    - static/img
+    - screenshot/**
 
 functions:
   app:
     handler: handler.app
-    events:
+    events: ${self:custom.events.${opt:stage,'production'}}
+  authorizer:
+    handler: lib/authorizer.handler
+
+
+resources:
+  Resources:
+    GatewayResponse:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.WWW-Authenticate: "'Basic'"
+        ResponseType: UNAUTHORIZED
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+        StatusCode: '401'
+
+custom:
+  events:
+    production:
       - http:
           path: /
           method: get
       - http:
           path: /{any+}
           method: get
+    staging:
+      - http:
+          path: /
+          method: get
+          authorizer:
+            name: authorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: request
+      - http:
+          path: /{any+}
+          method: get
+          authorizer:
+            name: authorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: request
