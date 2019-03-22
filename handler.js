@@ -1,32 +1,30 @@
 'use strict';
 
-const yaml = require('js-yaml')
-const fs = require('fs')
-const path = require('path')
+const awsServerlessExpress = require( 'aws-serverless-express' );
+const app = require( './lib/app' );
 
-const site = yaml.safeLoad(fs.readFileSync('./site.yml', 'utf8'))
+const binaryMimeTypes = [
+  'application/javascript',
+  'application/json',
+  'application/octet-stream',
+  'application/xml',
+  'font/eot',
+  'font/opentype',
+  'font/otf',
+  'image/jpeg',
+  'image/png',
+  'image/svg+xml',
+  'image/x-icon',
+  'text/comma-separated-values',
+  'text/css',
+  'text/html',
+  'text/javascript',
+  'text/plain',
+  'text/text',
+  'text/xml'
+];
 
-const getHandler = (string) => {
-  const handler = require(path.join(__dirname, string.split(/\./)[0]))
-  return handler[string.split(/\./)[1]]
-}
+const server = awsServerlessExpress.createServer( app, null, binaryMimeTypes );
 
-module.exports.app = (event, context, callback) => {
-  const params = {
-    site: site.site_meta,
-    page: {},
-    event: event,
-    handler: getHandler(site.settings.defaultHandler),
-  }
-
-  for (const key in site.sitemap) {
-    if (event.path.match(new RegExp(`^${key}$`))) {
-      params.page = site.sitemap[key]
-      if (site.sitemap[key].handler) {
-        params.handler = getHandler(site.sitemap[key].handler)
-      }
-    }
-  }
-
-  callback(null, params.handler(params, event, context))
-}
+module.exports.app = ( event, context ) =>
+  awsServerlessExpress.proxy( server, event, context );
